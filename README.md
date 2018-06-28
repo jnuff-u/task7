@@ -12,10 +12,10 @@ list修改，添加上传图片
 
 短信需第三方jar包：
 
-需要手动导入，通过maven添加
-```
+>需要手动导入，通过maven添加
 mvn install:install-file -Dfile=D:\Maven\Repository\CCP_REST_SMS_SDK_JAVA_v2.6.3r.jar  -DgroupId=com.cloopen -DartifactId=cloopen-rest-sdk -Dversion=2.6.3
 
+```
 <!--荣联 短信发送-->
     <dependency>
       <groupId>com.cloopen</groupId>
