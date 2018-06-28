@@ -86,6 +86,8 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
                         }catch (RuntimeException e){
                             logger.info(e.getMessage());
                             logger.info("token过期");
+                            request.setAttribute("message","请登录后查看");
+                            request.getRequestDispatcher("login").forward(request,response);
                             return false;
                         }
                         //test
