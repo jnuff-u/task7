@@ -68,6 +68,7 @@ public class JWTUtil {
         } catch (TokenExpiredException e) {
             e.fillInStackTrace();
             throw new RuntimeException("凭证过期！请重新登录!");
+
         }
         return jwt;
     }

@@ -53,8 +53,15 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
         if(!url.contains("login")){
 
             if(url.contains("reg")){
-
                 logger.info("\n注册页面 reg 拦截器放行\n");
+                return true;
+            }
+            if(url.contains("smsCode")){
+                logger.info("\n发送验证短信  拦截器放行\n");
+                return true;
+            }
+            if(url.contains("emailCode")){
+                logger.info("\n发送验证邮箱 拦截器放行\n");
                 return true;
             }
 
@@ -70,8 +77,17 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
                         JWTUtil jwtUtil = new JWTUtil(TOKENKEY);
 
                         String token = cookie.getValue();
-                        DecodedJWT jwt = jwtUtil.decodedToken(token);
+                        DecodedJWT jwt = null;
 
+                        try{
+
+                            jwt = jwtUtil.decodedToken(token);
+
+                        }catch (RuntimeException e){
+                            logger.info(e.getMessage());
+                            logger.info("token过期");
+                            return false;
+                        }
                         //test
 
 //                    logger.info("\n当前时间："+(date.getTime()));
@@ -89,7 +105,9 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
                             session.setAttribute("username",jwt.getClaim("name").asString());
                             return true;
                         }
+
                         logger.info("\ntoken无效");
+
                         }catch (JWTDecodeException e){
                             logger.info("\ntoken获取异常{}",e);
                             e.fillInStackTrace();
@@ -105,6 +123,7 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 
             return false;
         }
+
         logger.info("\n拦截器放行\n");
         return true;
     }
